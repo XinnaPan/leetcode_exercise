@@ -27,18 +27,35 @@ class Solution
 		case '/':
 			return a / b;
 		}
-		return 0;
+		return 0; 
 	}
 public:
 	int calculate(string s)
 	{
 		stack<char> ss;
 		stack<int> si;
-		for (int i = 0; i < s.length(); i++)
+		for (int i = 0; i < s.length();i++)
 		{
+			//cout << s[i];
 			if (s[i] <= '9' && s[i] >= '0')
 			{
-				si.push(s[i] - '0');
+				//cout << stoi(s) << endl;
+				//return 0;
+				string subs = s.substr(i);
+				si.push(stoi(subs));
+				while (s[i] <= '9' && s[i] >= '0')
+				{
+					if (i + 1 < s.length())
+					{
+						i++;
+					}
+					else
+					{
+						i++;
+						break;
+					}
+				}
+				i--;
 			}
 			else //symbol
 			{
@@ -47,6 +64,7 @@ public:
 				if (ss.empty())
 				{
 					ss.push(s[i]);
+					//cout << "ss=" << ss.top() << "; ";
 					continue;
 				}
 				if (s[i] == '*' || s[i] == '/')
@@ -60,7 +78,7 @@ public:
 						si.pop();
 						int b = si.top();
 						si.pop();
-						iTemp = doCal(b,a, ss.top());
+						iTemp = doCal(b, a, ss.top());
 						ss.pop();
 						si.push(iTemp);
 						i--;
@@ -79,7 +97,8 @@ public:
 					si.push(iTemp);
 					i--;
 				}
-			
+				//cout << "ss=" << ss.top() << "; ";
+				//cout << "si=" << si.top() << "; ";
 			}
 		}
 
@@ -91,8 +110,11 @@ public:
 			int b = si.top();
 			si.pop();
 			iTemp = doCal(b, a, ss.top());
+			
+			//cout << a <<ss.top()<< b<<"="<<iTemp << endl;
 			ss.pop();
 			si.push(iTemp);
+
 
 		}
 
@@ -109,3 +131,5 @@ int main()
 	cout << res.calculate(s);
 	return 0;
 }
+
+//超时错误 没什么道理的感觉 再说吧
